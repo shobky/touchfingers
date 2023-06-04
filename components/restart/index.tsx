@@ -11,7 +11,6 @@ export default function Restart() {
   const router = useRouter();
 
   const resetGame = () => {
-    state.words.sort(() => Math.random() - 0.5);
     dispatch({ type: "RESET_GAME" });
 
     // if (input) {
@@ -21,6 +20,7 @@ export default function Restart() {
   };
 
   const refreshForNow = () => {
+    state.words.sort(() => Math.random() - 0.5);
     window.location.reload();
   };
   return (
