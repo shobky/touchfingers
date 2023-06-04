@@ -147,6 +147,9 @@ const TypingProvider = ({ children }: { children?: ReactNode | any }) => {
   const [state, dispatch] = useReducer(typingReducer, initState);
 
   const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+  useEffect(() => {
+    state.words.sort(() => Math.random() - 0.5);
+  }, [state.words]);
 
   return (
     <TypingContext.Provider value={contextValue}>
