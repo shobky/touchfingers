@@ -12,6 +12,7 @@ export default function Restart() {
 
   const resetGame = () => {
     dispatch({ type: "RESET_GAME" });
+    state.words.sort(() => Math.random() - 0.5);
 
     // if (input) {
     //   // @ts-ignore
@@ -20,8 +21,8 @@ export default function Restart() {
   };
 
   const refreshForNow = () => {
-    state.words.sort(() => Math.random() - 0.5);
     window.location.reload();
+    state.words.sort(() => Math.random() - 0.5);
   };
   return (
     <button onClick={refreshForNow}>
