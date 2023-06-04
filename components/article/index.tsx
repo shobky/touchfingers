@@ -16,7 +16,7 @@ export default function Article() {
         type: "RESET_TYPED_WORDS",
       });
     }
-  }, [state.typedWords]);
+  }, [state.typedWords, dispatch]);
 
   const getWordColor = (wordIdx: number, word: string): string => {
     // if the word is typed correctly
@@ -28,7 +28,7 @@ export default function Article() {
       state.typedWords[wordIdx] !== word &&
       state.currentWordIdx - (sliceIdx - SHOWN_WORDS_COUNT) > wordIdx
     ) {
-      return "rgba(228, 135, 14, 0.650)";
+      return "rgba(228, 135, 14, 1)";
     }
     // if the word is not typed yet
     else {

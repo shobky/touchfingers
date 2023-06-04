@@ -21,7 +21,6 @@ interface TypingState {
   testHistory: string[];
   timer: number;
   isGameFinished?: boolean;
-  isRestarted?: boolean;
   isGameStarted?: boolean;
 }
 
@@ -29,14 +28,13 @@ const initState: TypingState = {
   words: [],
   currentWord: "",
   currentWordIdx: 0,
-  currentChar: "",
+  currentChar: "x",
   currentCharIdx: 0,
   typedWords: [],
   typedChars: [],
   testHistory: [],
   timer: 60, // Set the initial value of the timer
   isGameFinished: false,
-  isRestarted: false,
   isGameStarted: false,
 };
 
@@ -103,7 +101,7 @@ const typingReducer = (
     case "RESET_INPUT":
       return {
         ...state,
-        currentChar: "",
+        currentChar: "x",
         currentCharIdx: 0,
       };
     case "START_TIMER":
@@ -119,18 +117,16 @@ const typingReducer = (
     case "RESET_GAME":
       return {
         ...state,
+        isGameStarted: false,
+        currentChar: "x",
         currentWord: "",
         currentWordIdx: 0,
-        currentChar: "",
         currentCharIdx: 0,
         typedWords: [],
         typedChars: [],
         isGameFinished: false,
         timer: 60,
         testHistory: [],
-        //changing the state on restart to force the useEffect to run again and randomize the words
-        isRestarted: !state.isRestarted,
-        isGameStarted: false,
       };
     default:
       return state;
@@ -151,33 +147,6 @@ const TypingProvider = ({ children }: { children?: ReactNode | any }) => {
   const [state, dispatch] = useReducer(typingReducer, initState);
 
   const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
-
-  //fetch words from api and set it to the state of the context and use callback to avoid infinite loop
-  const fetchWordsApi = useCallback(async () => {
-    let UniqeWords: string[] = ["shobky"];
-    let words: string[] = [];
-    const res = await fetch(
-      "https://random-word-api.vercel.app/api?words=250&length=5"
-    );
-    const data = await res.json();
-    words = data;
-
-    words.forEach(word => {
-      if (!UniqeWords.includes(word)) {
-        UniqeWords.push(word);
-      }
-    });
-    UniqeWords.sort(() => Math.random() - 0.5);
-    dispatch({ type: "SET_WORDS", words: UniqeWords });
-  }, []);
-
-  useEffect(() => {
-    state.words.sort(() => Math.random() - 0.5);
-  }, [state.isRestarted]);
-
-  useEffect(() => {
-    fetchWordsApi();
-  }, [fetchWordsApi]);
 
   return (
     <TypingContext.Provider value={contextValue}>

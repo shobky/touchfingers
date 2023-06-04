@@ -1,26 +1,33 @@
-"use client";
 import Article from "@/components/article";
 import Input from "@/components/input";
 import Results from "@/components/resule";
-import { useTypingContext } from "@/contexts/TypingContext";
 
-export default function Home() {
-  const { state } = useTypingContext();
+export default async function Home() {
+  let UniqeWords: string[] = ["shobky"];
+  let words: string[] = [];
+
+  //fetch words from api
+  const res = await fetch(
+    "https://random-word-api.vercel.app/api?words=250&length=5"
+  );
+  const data = await res.json();
+  words = data;
+  words.forEach(word => {
+    if (!UniqeWords.includes(word)) {
+      UniqeWords.push(word);
+    }
+  });
+  UniqeWords.sort(() => Math.random() - 0.5);
+
   return (
     <main className={`h-screen w-full `}>
-      {true && (
-        <div className="absolute">
-          <Results />
-        </div>
-      )}
-      {state.words.length > 0 ? (
-        <div className="h-full gap-16 flex flex-col pt-8 items-center justify-center">
-          <Article />
-          <Input />
-        </div>
-      ) : (
-        <p className="relative top-2/4 text-xl opacity-60 text-center">Fetching Words...</p>
-      )}
+      <div className="absolute">
+        <Results words={UniqeWords} />
+      </div>
+      <div className="h-full gap-16 flex flex-col pt-8 items-center justify-center">
+        <Article />
+        <Input />
+      </div>
     </main>
   );
 }

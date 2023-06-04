@@ -1,9 +1,14 @@
 "use client";
 
 import { useTypingContext } from "@/contexts/TypingContext";
+import { useEffect } from "react";
 
-export default function Results() {
+export default function Results({ words }: { words: string[] }) {
   const { state, dispatch } = useTypingContext();
+
+  useEffect(() => {
+    dispatch({ type: "SET_WORDS", words: words });
+  }, [words]);
 
   const correctWords = state.words.filter((word, wordIdx) => {
     return state.testHistory[wordIdx] === word;
@@ -20,15 +25,17 @@ export default function Results() {
   };
 
   return (
-     <div className="flex justify-end w-screen p-14 ">
+    <div className="flex justify-end w-screen p-14 ">
       <div className="  text-slate-800 flex gap-8 opacity-85 justify-start ">
         <p className="flex flex-col  font-bold  ">
           <span className="text-xl">
-            {Math.round(calculateWordsPerMinute() / 1000) || 0} <span style={{fontSize:".85em"}}>WPM</span></span>
+            {Math.round(calculateWordsPerMinute() / 1000) || 0}{" "}
+            <span style={{ fontSize: ".85em" }}>WPM</span>
+          </span>
         </p>
 
         <p className="flex flex-col font-bold  ">
-          <span className="text-xl">{accuracy || 0}%</span>  
+          <span className="text-xl">{accuracy || 0}%</span>
         </p>
       </div>
     </div>

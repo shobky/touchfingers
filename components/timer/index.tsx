@@ -7,15 +7,18 @@ function Timer() {
   const intervalRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
-    if (state.currentChar !== "" && !state.isGameStarted) {
+    if (state.currentChar !== "x") {
       dispatch({ type: "START_GAME" });
-
-      if (!intervalRef.current) {
-        intervalRef.current = setInterval(() => {
-          dispatch({ type: "START_TIMER" });
-        }, 1000);
-      }
     }
+  }, [dispatch, state.currentChar]);
+
+  useEffect(() => {
+    if (!intervalRef.current && state.isGameStarted) {
+      intervalRef.current = setInterval(() => {
+        dispatch({ type: "START_TIMER" });
+      }, 1000);
+    }
+ 
   }, [dispatch, state.currentChar, state.isGameStarted]);
 
   useEffect(() => {
@@ -25,7 +28,15 @@ function Timer() {
     }
   }, [dispatch, state.timer]);
 
-  return <p className={`text-xl text-gray-700 font-bold ${state.timer === 0 && '_gameFinished'}`}>{state.timer}</p>;
+  return (
+    <p
+      className={`text-xl text-gray-700 font-bold ${
+        state.timer === 0 && "_gameFinished"
+      }`}
+    >
+      {state.timer}
+    </p>
+  );
 }
 
 export default Timer;

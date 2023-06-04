@@ -15,6 +15,7 @@ const Input: React.FC = () => {
   const [typedWord, setTypedWord] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
+  console.log({...state})
 
   useEffect(() => {
     const handleKeyPress = () => {
