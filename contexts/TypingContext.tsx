@@ -22,6 +22,7 @@ interface TypingState {
   timer: number;
   isGameFinished?: boolean;
   isGameStarted?: boolean;
+  howManyRestarts: number;
 }
 
 const initState: TypingState = {
@@ -36,6 +37,7 @@ const initState: TypingState = {
   timer: 60, // Set the initial value of the timer
   isGameFinished: false,
   isGameStarted: false,
+  howManyRestarts: 0,
 };
 
 // Define the available actions
@@ -101,7 +103,7 @@ const typingReducer = (
     case "RESET_INPUT":
       return {
         ...state,
-        currentChar: "x",
+        currentChar: "  ",
         currentCharIdx: 0,
       };
     case "START_TIMER":
@@ -117,6 +119,7 @@ const typingReducer = (
     case "RESET_GAME":
       return {
         ...state,
+        howManyRestarts: state.howManyRestarts + 1,
         isGameStarted: false,
         currentChar: "x",
         currentWord: "",
@@ -149,7 +152,7 @@ const TypingProvider = ({ children }: { children?: ReactNode | any }) => {
   const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
   useEffect(() => {
     state.words.sort(() => Math.random() - 0.5);
-  }, []);
+  }, [state.howManyRestarts]);
 
   return (
     <TypingContext.Provider value={contextValue}>

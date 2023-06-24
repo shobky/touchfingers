@@ -14,18 +14,11 @@ export default function Restart() {
     dispatch({ type: "RESET_GAME" });
     state.words.sort(() => Math.random() - 0.5);
 
-    // if (input) {
-    //   // @ts-ignore
-    //   input.value = "";
-    // }
   };
 
-  const refreshForNow = () => {
-    window.location.reload();
-    state.words.sort(() => Math.random() - 0.5);
-  };
+
   return (
-    <button onClick={refreshForNow}>
+    <button onClick={resetGame}>
       <Image
         className="mt-2 opacity-60 hover:opacity-70  "
         src="/restart.svg"

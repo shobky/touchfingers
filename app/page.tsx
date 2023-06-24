@@ -1,6 +1,6 @@
 import Article from "@/components/article";
 import Input from "@/components/input";
-import Results from "@/components/resule";
+import Results from "@/components/result";
 
 export default async function Home() {
   let UniqeWords: string[] = ["shobky"];

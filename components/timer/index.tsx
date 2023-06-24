@@ -1,5 +1,6 @@
 "use client";
 import { useTypingContext } from "@/contexts/TypingContext";
+import { stat } from "fs";
 import { useEffect, useRef } from "react";
 
 function Timer() {
@@ -13,13 +14,13 @@ function Timer() {
   }, [dispatch, state.currentChar]);
 
   useEffect(() => {
-    if (!intervalRef.current && state.isGameStarted) {
+    if (!state.isGameStarted) return clearInterval(intervalRef.current);
+    if (state.isGameStarted) {
       intervalRef.current = setInterval(() => {
         dispatch({ type: "START_TIMER" });
       }, 1000);
     }
- 
-  }, [dispatch, state.currentChar, state.isGameStarted]);
+  }, [dispatch, state.isGameStarted]);
 
   useEffect(() => {
     if (state.timer === 0) {
