@@ -152,7 +152,7 @@ const TypingProvider = ({ children }: { children?: ReactNode | any }) => {
   const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
   useEffect(() => {
     state.words.sort(() => Math.random() - 0.5);
-  }, [state.howManyRestarts]);
+  }, [state.words]);
 
   return (
     <TypingContext.Provider value={contextValue}>
