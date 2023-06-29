@@ -7,8 +7,9 @@ function Timer() {
   const { state, dispatch } = useTypingContext();
   const intervalRef = useRef<NodeJS.Timeout>();
 
+
   useEffect(() => {
-    if (state.currentChar !== "x") {
+    if (state.currentChar !== "") {
       dispatch({ type: "START_GAME" });
     }
   }, [dispatch, state.currentChar]);

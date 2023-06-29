@@ -15,7 +15,7 @@ const Input: React.FC = () => {
   const [typedWord, setTypedWord] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
+    useEffect(() => {
     const handleKeyPress = () => {
       if (inputRef.current) {
         inputRef.current.focus();
@@ -27,21 +27,23 @@ const Input: React.FC = () => {
     };
   }, []);
 
-  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    const inputCharIdx = inputValue.length - 1;
-    setTypedWord(inputValue.trim());
-    if (typedWord === " ") {
-      return;
-    }
-    dispatch({
-      type: "UPDATE_CURRENT_CHAR",
-      char: inputValue[inputCharIdx],
-      charIdx: inputCharIdx,
-      typedChar: inputValue[inputCharIdx],
-    });
-
-  }, [dispatch, typedWord]);
+  const handleInputChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const inputValue = e.target.value;
+      const inputCharIdx = inputValue.length - 1;
+      setTypedWord(inputValue.trim());
+      if (inputValue === " ") {
+        return;
+      }
+      dispatch({
+        type: "UPDATE_CURRENT_CHAR",
+        char: inputValue[inputCharIdx],
+        charIdx: inputCharIdx,
+        typedChar: inputValue[inputCharIdx],
+      });
+    },
+    []
+  );
 
   const handleInputKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -59,7 +61,7 @@ const Input: React.FC = () => {
         setTypedWord("");
       }
     },
-    [dispatch, state.currentWordIdx, typedWord, state.words]
+    [ state.currentWordIdx, typedWord, state.words]
   );
 
   return (
@@ -80,7 +82,7 @@ const Input: React.FC = () => {
         />
         <Restart />
       </div>
-      {state.typedWords.length <= 0 && (
+      {!state.isGameStarted && (
         <p className=" text-sm ml-3 mt-2 opacity-75 ">{`{ Press any key to start }`}</p>
       )}
     </div>

@@ -9,6 +9,8 @@ export default function Article() {
   const { state, dispatch } = useTypingContext();
   const [sliceIdx, setSliceIdx] = useState(SHOWN_WORDS_COUNT);
 
+  console.log({ component: "article" });
+
   useEffect(() => {
     if (state.typedWords.length === SHOWN_WORDS_COUNT - 1) {
       setSliceIdx(prevSliceIdx => prevSliceIdx + SHOWN_WORDS_COUNT - 1);
@@ -62,12 +64,7 @@ export default function Article() {
                       }}
                     >
                       {isActive && (
-                        <span
-                          className="_cursorAnimation absolute text-orange-400  ease-in-out duration-150 text-2xl h-6 overflow-hidden bottom-0"
-                          style={{
-                            marginLeft: -4,
-                          }}
-                        >
+                        <span className="_cursorAnimation absolute text-orange-400  ease-in-out duration-150 text-2xl h-6 overflow-hidden bottom-0">
                           |
                         </span>
                       )}
