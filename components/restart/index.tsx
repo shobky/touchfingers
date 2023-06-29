@@ -5,16 +5,9 @@ import React from "react";
 
 export default function Restart() {
   const { state, dispatch } = useTypingContext();
-  const input = document
-    ? (document.getElementById("input") as HTMLInputElement)
-    : "";
-
   const resetGame = () => {
     dispatch({ type: "RESET_GAME" });
     state.words.sort(() => Math.random() - 0.5);
-    if (input) {
-      input.value = "";
-    }
   };
 
   return (

@@ -15,7 +15,11 @@ const Input: React.FC = () => {
   const [typedWord, setTypedWord] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
+  useEffect(() => {
+    setTypedWord("");
+  }, [state.howManyRestarts]);
+
+  useEffect(() => {
     const handleKeyPress = () => {
       if (inputRef.current) {
         inputRef.current.focus();
@@ -27,23 +31,20 @@ const Input: React.FC = () => {
     };
   }, []);
 
-  const handleInputChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const inputValue = e.target.value;
-      const inputCharIdx = inputValue.length - 1;
-      setTypedWord(inputValue.trim());
-      if (inputValue === " ") {
-        return;
-      }
-      dispatch({
-        type: "UPDATE_CURRENT_CHAR",
-        char: inputValue[inputCharIdx],
-        charIdx: inputCharIdx,
-        typedChar: inputValue[inputCharIdx],
-      });
-    },
-    []
-  );
+  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    const inputCharIdx = inputValue.length - 1;
+    setTypedWord(inputValue.trim());
+    if (inputValue === " ") {
+      return;
+    }
+    dispatch({
+      type: "UPDATE_CURRENT_CHAR",
+      char: inputValue[inputCharIdx],
+      charIdx: inputCharIdx,
+      typedChar: inputValue[inputCharIdx],
+    });
+  }, []);
 
   const handleInputKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -61,7 +62,7 @@ const Input: React.FC = () => {
         setTypedWord("");
       }
     },
-    [ state.currentWordIdx, typedWord, state.words]
+    [state.currentWordIdx, typedWord, state.words]
   );
 
   return (
