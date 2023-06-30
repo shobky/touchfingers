@@ -18,7 +18,7 @@ const Input: React.FC = () => {
   useEffect(() => {
     setTypedWord("");
   }, [state.howManyRestarts]);
-
+  
   useEffect(() => {
     const handleKeyPress = () => {
       if (inputRef.current) {
