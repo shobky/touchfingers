@@ -6,30 +6,15 @@ import {
   ReactNode,
   useMemo,
   useEffect,
-  useCallback,
 } from "react";
 
-// Define the state shape
-interface TypingState {
-  words: string[];
-  currentWord: string;
-  currentWordIdx: number;
-  currentChar: string;
-  currentCharIdx: number;
-  typedWords: string[];
-  typedChars: string[];
-  testHistory: string[];
-  timer: number;
-  isGameFinished?: boolean;
-  isGameStarted?: boolean;
-  howManyRestarts: number;
-}
+import { TypingState, TypingAction } from "@/types/contextTypes";
 
 const initState: TypingState = {
   words: [],
   currentWord: "",
   currentWordIdx: 0,
-  currentChar: '',
+  currentChar: "",
   currentCharIdx: 0,
   typedWords: [],
   typedChars: [],
@@ -39,29 +24,6 @@ const initState: TypingState = {
   isGameStarted: false,
   howManyRestarts: 0,
 };
-
-// Define the available actions
-type TypingAction =
-  | { type: "SET_WORDS"; words: string[] }
-  | {
-      type: "UPDATE_CURRENT_CHAR";
-      char: string;
-      charIdx: number;
-      typedChar: string;
-    }
-  | {
-      type: "UPDATE_CURRENT_WORD";
-      word: string;
-      wordIdx: number;
-      typedWord: string;
-      historyWord: string;
-    }
-  | { type: "RESET_INPUT" }
-  | { type: "RESET_TYPED_WORDS" }
-  | { type: "START_TIMER" }
-  | { type: "FINISH_GAME" }
-  | { type: "RESET_GAME" }
-  | { type: "START_GAME" };
 
 const typingReducer = (
   state: TypingState,
@@ -95,6 +57,21 @@ const typingReducer = (
         currentChar: "",
         currentCharIdx: 0,
       };
+    case "RESET_GAME":
+      return {
+        ...state,
+        isGameStarted: false,
+        howManyRestarts: state.howManyRestarts + 1,
+        currentChar: "",
+        currentWord: "",
+        currentWordIdx: 0,
+        currentCharIdx: 0,
+        typedWords: [],
+        typedChars: [],
+        isGameFinished: false,
+        timer: 60,
+        testHistory: [],
+      };
     case "RESET_TYPED_WORDS":
       return {
         ...state,
@@ -116,21 +93,7 @@ const typingReducer = (
         ...state,
         isGameFinished: true,
       };
-    case "RESET_GAME":
-      return {
-        ...state,
-        howManyRestarts: state.howManyRestarts + 1,
-        isGameStarted: false,
-        currentChar: "x",
-        currentWord: "",
-        currentWordIdx: 0,
-        currentCharIdx: 0,
-        typedWords: [],
-        typedChars: [],
-        isGameFinished: false,
-        timer: 60,
-        testHistory: [],
-      };
+
     default:
       return state;
   }
