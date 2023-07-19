@@ -6,6 +6,7 @@ import { useEffect } from "react";
 export default function Results({ words }: { words: string[] }) {
   const { state, dispatch } = useTypingContext();
 
+  // this updated the words state to render after fetching from server (don't ask me why it's in the results component)
   useEffect(() => {
     dispatch({ type: "SET_WORDS", words: words });
   }, [words]);

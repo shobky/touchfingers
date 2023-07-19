@@ -9,8 +9,8 @@ export default function Article() {
   const { state, dispatch } = useTypingContext();
   const [sliceIdx, setSliceIdx] = useState(SHOWN_WORDS_COUNT);
 
-  console.log({ component: "article" });
-
+  // updated the rendered 20 words after finishing 20 words
+  // reseting the typed words, the full history is in typed_history (things worked out like this and was lazy to fix)
   useEffect(() => {
     if (state.typedWords.length === SHOWN_WORDS_COUNT - 1) {
       setSliceIdx(prevSliceIdx => prevSliceIdx + SHOWN_WORDS_COUNT - 1);
@@ -19,7 +19,7 @@ export default function Article() {
       });
     }
   }, [state.typedWords, dispatch]);
-
+  
   const getWordColor = (wordIdx: number, word: string): string => {
     // if the word is typed correctly
     if (state.typedWords[wordIdx] === word) {
@@ -55,6 +55,7 @@ export default function Article() {
                     state.words[state.currentWordIdx] === word &&
                     word[state.currentCharIdx] === char &&
                     charIdx === state.currentCharIdx;
+                  // if character doesn't match regex a-z & A-Z then it's empty (spacebar, starting new word)
                   const firstChar = state.currentChar === "" || !state.currentChar?.match(/[a-zA-Z]/)
                   return (
                     <span
