@@ -18,8 +18,9 @@ const Input: React.FC = () => {
   useEffect(() => {
     setTypedWord("");
   }, [state.howManyRestarts]);
-  
+
   useEffect(() => {
+    if (state.isGameStarted) return;
     const handleKeyPress = () => {
       if (inputRef.current) {
         inputRef.current.focus();
@@ -31,38 +32,43 @@ const Input: React.FC = () => {
     };
   }, []);
 
-  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    const inputCharIdx = inputValue.length - 1;
-    setTypedWord(inputValue.trim());
-    if (inputValue === " ") {
-      return;
-    }
+  const handleInputChange = useCallback((inputValue: string, idx: number) => {
     dispatch({
       type: "UPDATE_CURRENT_CHAR",
-      char: inputValue[inputCharIdx],
-      charIdx: inputCharIdx,
-      typedChar: inputValue[inputCharIdx],
+      char: inputValue[idx],
+      charIdx: idx,
+      typedChar: inputValue[idx],
     });
   }, []);
 
-  const handleInputKeyDown = useCallback(
-    (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === " " && typedWord !== "") {
-        // Pressed space key
-        dispatch({
-          type: "UPDATE_CURRENT_WORD",
-          word: state.words[state.currentWordIdx + 1],
-          wordIdx: state.currentWordIdx + 1,
-          typedWord: typedWord,
-          historyWord: typedWord,
-        });
-        e.currentTarget.value = ""; // Reset input
-        dispatch({ type: "RESET_INPUT" });
-        setTypedWord("");
+  const handleNewWord = useCallback(() => {
+    dispatch({
+      type: "UPDATE_CURRENT_WORD",
+      word: state.words[state.currentWordIdx + 1],
+      wordIdx: state.currentWordIdx + 1,
+      typedWord: typedWord,
+      historyWord: typedWord,
+    });
+    dispatch({ type: "RESET_INPUT" });
+    setTypedWord("");
+  }, [state.currentWordIdx, typedWord]);
+
+  const callOnChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const inputValue = e.target.value;
+      const idx = inputValue.length - 1;
+      setTypedWord(inputValue.trim());
+
+      if (inputValue[idx] === " " && typedWord !== "") {
+        //starts a new word on if the input is "" (Ie. spacebar)
+        handleNewWord();
+        e.currentTarget.value = "";
+        return;
       }
+
+      handleInputChange(inputValue, idx);
     },
-    [state.currentWordIdx, typedWord, state.words]
+    [typedWord]
   );
 
   return (
@@ -73,18 +79,20 @@ const Input: React.FC = () => {
           value={typedWord}
           disabled={state.isGameFinished}
           ref={inputRef}
-          className=" bg-gray-100 placeholder:text-slate-400 p-4 
-             rounded-2xl  w-44 focus: outline-none text-xl font-semibold text-gray-500 text-center"
           type="text"
-          onChange={handleInputChange}
-          onKeyDown={handleInputKeyDown}
+          onChange={callOnChange}
           autoComplete="off"
           name="special-input"
+          className=" bg-gray-100 placeholder:text-slate-400 p-4 
+          rounded-2xl  w-44 focus: outline-none text-xl font-semibold text-gray-500 text-center"
         />
         <Restart />
       </div>
+
       {!state.isGameStarted && (
-        <p className=" text-sm ml-3 mt-2 opacity-75 ">{`{ Press any key to start }`}</p>
+        <p className=" text-sm  ml-8 mt-2 opacity-75 ">{`{ Press "${
+          state.words[0] ? state.words[0][0] : "any key"
+        }" to start }`}</p>
       )}
     </div>
   );

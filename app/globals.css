@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 ._cursorAnimation {
-  animation: cursor .2s forwards;
-  transition: ease-in-out .2s;
+  animation: cursor .3s forwards;
+  transition: ease-in-out .3s;
 }
 @keyframes cursor {
   from {

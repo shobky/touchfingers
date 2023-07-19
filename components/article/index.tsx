@@ -1,6 +1,6 @@
 "use client";
 import { useTypingContext } from "@/contexts/TypingContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Timer from "../timer";
 
 const SHOWN_WORDS_COUNT = 20;
@@ -19,7 +19,7 @@ export default function Article() {
       });
     }
   }, [state.typedWords, dispatch]);
-  
+
   const getWordColor = (wordIdx: number, word: string): string => {
     // if the word is typed correctly
     if (state.typedWords[wordIdx] === word) {
@@ -37,13 +37,37 @@ export default function Article() {
       return "rgba(0, 0, 0, 0.650)";
     }
   };
+  //dynamic cursor is just each character being rendered with the cursor before it based on the typed character
+  const dynamicCursor = (word: string, char: string, charIdx: number) => {
+    const isActive =
+      state.words[state.currentWordIdx] === word &&
+      word[state.currentCharIdx] === char &&
+      charIdx === state.currentCharIdx;
+    // if character doesn't match regex a-z & A-Z then it's empty (spacebar, starting new word)
+    const firstChar =
+      state.currentChar === "" || !state.currentChar?.match(/[a-zA-Z]/);
 
+    return (
+      <>
+        {isActive && firstChar && (
+          <span className="_cursorAnimation absolute text-orange-400  ease-in-out duration-150 text-2xl h-6 overflow-hidden bottom-0">
+            |
+          </span>
+        )}
+        {char}
+        {isActive && !firstChar && (
+          <span className="_cursorAnimation absolute text-orange-400  ease-in-out duration-150 text-2xl h-6 overflow-hidden bottom-0">
+            |
+          </span>
+        )}
+      </>
+    );
+  };
   return (
     <div
       style={{ height: "8.3rem" }}
       className="max-w-2xl w-fit p-5 box-border rounded-2xl"
     >
-      <Timer />
       <div className="flex flex-wrap">
         {state.words
           ?.slice(sliceIdx - SHOWN_WORDS_COUNT, sliceIdx)
@@ -51,12 +75,6 @@ export default function Article() {
             return (
               <p className=" w-fit flex mr-2 leading-8" key={wordIdx}>
                 {Array.from(word).map((char: string, charIdx: number) => {
-                  const isActive =
-                    state.words[state.currentWordIdx] === word &&
-                    word[state.currentCharIdx] === char &&
-                    charIdx === state.currentCharIdx;
-                  // if character doesn't match regex a-z & A-Z then it's empty (spacebar, starting new word)
-                  const firstChar = state.currentChar === "" || !state.currentChar?.match(/[a-zA-Z]/)
                   return (
                     <span
                       key={`${wordIdx}-${charIdx}`}
@@ -65,18 +83,7 @@ export default function Article() {
                         color: getWordColor(wordIdx, word),
                       }}
                     >
-                      {(firstChar && isActive) && (
-                        <span className="_cursorAnimation absolute text-orange-400  ease-in-out duration-150 text-2xl h-6 overflow-hidden bottom-0">
-                          |
-                        </span>
-                      )}
-
-                      {char}
-                      {(isActive && !firstChar) && (
-                        <span className="_cursorAnimation absolute text-orange-400  ease-in-out duration-150 text-2xl h-6 overflow-hidden bottom-0">
-                          |
-                        </span>
-                      )}
+                      {dynamicCursor(word, char, charIdx)}
                     </span>
                   );
                 })}{" "}

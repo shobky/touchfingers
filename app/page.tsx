@@ -1,6 +1,7 @@
 import Article from "@/components/article";
 import Input from "@/components/input";
 import Results from "@/components/result";
+import Timer from "@/components/timer";
 
 export default async function Home() {
   let UniqeWords: string[] = ["shobky"];
@@ -25,6 +26,7 @@ export default async function Home() {
         <Results words={UniqeWords} />
       </div>
       <div className="h-full gap-16 flex flex-col pt-8 items-center justify-center">
+        <Timer />
         <Article />
         <Input />
       </div>

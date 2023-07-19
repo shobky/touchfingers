@@ -1,13 +1,14 @@
 "use client";
 import { useTypingContext } from "@/contexts/TypingContext";
-import { stat } from "fs";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
+import { TIME } from "@/contexts/TypingContext";
 function Timer() {
   const { state, dispatch } = useTypingContext();
   const intervalRef = useRef<NodeJS.Timeout>();
+  const [time, setTime] = useState(TIME); //not in reducer state to avoid rerendering of all components
 
-  // update state to start the game when user types any thing 
+  // update state to start the game when user types any thing
   useEffect(() => {
     if (state.currentChar !== "") {
       dispatch({ type: "START_GAME" });
@@ -19,26 +20,27 @@ function Timer() {
     if (!state.isGameStarted) return clearInterval(intervalRef.current);
     if (state.isGameStarted) {
       intervalRef.current = setInterval(() => {
-        dispatch({ type: "START_TIMER" });
+        setTime(prev => prev - 1);
       }, 1000);
     }
   }, [dispatch, state.isGameStarted, state.howManyRestarts]);
 
-  // stop timer when game is over after 60 seconds  
+  // stop timer when game is over after TIME seconds
   useEffect(() => {
-    if (state.timer === 0) {
+    if (time === 0) {
       clearInterval(intervalRef.current);
       dispatch({ type: "FINISH_GAME" });
+      setTime(TIME);
     }
-  }, [dispatch, state.timer]);
+  }, [dispatch, time]);
 
   return (
     <p
       className={`text-xl text-gray-700 font-bold ${
-        state.timer === 0 && "_gameFinished"
+        time === 0 && "_gameFinished"
       }`}
     >
-      {state.timer}
+      {time}
     </p>
   );
 }

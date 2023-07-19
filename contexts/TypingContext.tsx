@@ -9,7 +9,6 @@ import {
 } from "react";
 
 import { TypingState, TypingAction } from "@/types/contextTypes";
-
 const initState: TypingState = {
   words: [],
   currentWord: "",
@@ -19,7 +18,6 @@ const initState: TypingState = {
   typedWords: [],
   typedChars: [],
   testHistory: [],
-  timer: 60, // Set the initial value of the timer
   isGameFinished: false,
   isGameStarted: false,
   howManyRestarts: 0,
@@ -69,7 +67,7 @@ const typingReducer = (
         typedWords: [],
         typedChars: [],
         isGameFinished: false,
-        timer: 60,
+        // timer: 60,
         testHistory: [],
       };
     case "RESET_TYPED_WORDS":
@@ -82,11 +80,6 @@ const typingReducer = (
         ...state,
         currentChar: "  ",
         currentCharIdx: 0,
-      };
-    case "START_TIMER":
-      return {
-        ...state,
-        timer: state.timer - 1,
       };
     case "FINISH_GAME":
       return {
@@ -126,4 +119,5 @@ const TypingProvider = ({ children }: { children?: ReactNode | any }) => {
 
 // Custom hook to consume the TypingContext
 const useTypingContext = () => useContext(TypingContext);
-export { TypingProvider, useTypingContext };
+const TIME = 60 // 60 seconds, imported in result & timer 
+export { TypingProvider, useTypingContext, TIME};
