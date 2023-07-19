@@ -55,6 +55,7 @@ export default function Article() {
                     state.words[state.currentWordIdx] === word &&
                     word[state.currentCharIdx] === char &&
                     charIdx === state.currentCharIdx;
+                  const firstChar = state.currentChar === "" || !state.currentChar?.match(/[a-zA-Z]/)
                   return (
                     <span
                       key={`${wordIdx}-${charIdx}`}
@@ -63,12 +64,18 @@ export default function Article() {
                         color: getWordColor(wordIdx, word),
                       }}
                     >
-                      {isActive && (
+                      {(firstChar && isActive) && (
                         <span className="_cursorAnimation absolute text-orange-400  ease-in-out duration-150 text-2xl h-6 overflow-hidden bottom-0">
                           |
                         </span>
                       )}
+
                       {char}
+                      {(isActive && !firstChar) && (
+                        <span className="_cursorAnimation absolute text-orange-400  ease-in-out duration-150 text-2xl h-6 overflow-hidden bottom-0">
+                          |
+                        </span>
+                      )}
                     </span>
                   );
                 })}{" "}
