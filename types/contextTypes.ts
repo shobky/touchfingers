@@ -8,10 +8,12 @@ export interface TypingState {
   typedWords: string[];
   typedChars: string[];
   testHistory: string[];
+  timer: number;
   isGameFinished?: boolean;
   isGameStarted?: boolean;
   howManyRestarts: number;
 }
+
 
 // Define the available actions
 export type TypingAction =
@@ -31,6 +33,7 @@ export type TypingAction =
     }
   | { type: "RESET_INPUT" }
   | { type: "RESET_TYPED_WORDS" }
+  | { type: "START_TIMER" }
   | { type: "FINISH_GAME" }
   | { type: "RESET_GAME" }
   | { type: "START_GAME" };
