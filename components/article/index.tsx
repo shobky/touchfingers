@@ -1,7 +1,6 @@
 "use client";
 import { useTypingContext } from "@/contexts/TypingContext";
-import { useCallback, useEffect, useState } from "react";
-import Timer from "../timer";
+import { useEffect, useState } from "react";
 
 const SHOWN_WORDS_COUNT = 20;
 

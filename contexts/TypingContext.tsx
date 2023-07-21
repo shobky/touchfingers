@@ -61,7 +61,7 @@ const typingReducer = (
     case "RESET_GAME":
       return {
         ...state,
-        isGameStarted: true,
+        isGameStarted: false,
         howManyRestarts: state.howManyRestarts + 1,
         currentChar: "",
         currentWord: "",
