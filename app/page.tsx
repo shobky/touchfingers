@@ -22,7 +22,7 @@ export default async function Home() {
 
   return (
     <main className={`h-screen w-full `}>
-      <div className="absolute">
+      <div className="absolute right-0 flex p-14 gap-8 items-center  ">
         <Results words={UniqeWords} />
       </div>
       <div className="h-full gap-16 flex flex-col pt-8 items-center justify-center">

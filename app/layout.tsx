@@ -1,8 +1,9 @@
 import "./globals.css";
-import { JSXElementConstructor, ReactElement } from "react";
 import { Roboto } from "next/font/google";
 import { TypingProvider } from "@/contexts/TypingContext";
 import Footer from "@/components/footer";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 const roboto = Roboto({
   weight: "400",
@@ -14,15 +15,11 @@ export const metadata = {
   description:
     "Test your typing speed and accuracy, And exercise your fingers, for free!",
 };
-
-export default async function RootLayout({
-  children,
-}: {
-  children:
-    | ReactElement<any, string | JSXElementConstructor<any>>
-    | ReactElement<any, string | JSXElementConstructor<any>>[]
-    | undefined;
-}) {
+type props = {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+};
+export default async function RootLayout(props: props) {
   return (
     <html lang="en">
       <body className={`${roboto.className} app`}>
@@ -34,8 +31,12 @@ export default async function RootLayout({
             {`<TOUCHFINGERS/>`}
           </h1>
         </header>
-        <TypingProvider>{children}</TypingProvider>
-        <footer className="absolute bottom-0 mb-14 mx-16">
+
+        <TypingProvider>
+          {props.children}
+          {props.modal}
+        </TypingProvider>
+        <footer className="absolute bottom-0 mb-14 mx-16 text-white">
           <Footer />
         </footer>
       </body>

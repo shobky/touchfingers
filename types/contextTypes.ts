@@ -9,11 +9,11 @@ export interface TypingState {
   typedChars: string[];
   testHistory: string[];
   timer: number;
+  timerInit: number;
   isGameFinished?: boolean;
   isGameStarted?: boolean;
   howManyRestarts: number;
 }
-
 
 // Define the available actions
 export type TypingAction =
@@ -36,4 +36,5 @@ export type TypingAction =
   | { type: "START_TIMER" }
   | { type: "FINISH_GAME" }
   | { type: "RESET_GAME" }
-  | { type: "START_GAME" };
+  | { type: "START_GAME" }
+  | { type: "CHANGE_TIMER"; time: number };
