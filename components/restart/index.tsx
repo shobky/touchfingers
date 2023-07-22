@@ -7,7 +7,6 @@ export default function Restart() {
   const { state, dispatch } = useTypingContext();
   const resetGame = () => {
     dispatch({ type: "RESET_GAME" });
-    state.words.sort(() => Math.random() - 0.5);
   };
 
   return (

@@ -60,18 +60,9 @@ const typingReducer = (
       };
     case "RESET_GAME":
       return {
-        ...state,
-        isGameStarted: false,
+        ...initState,
         howManyRestarts: state.howManyRestarts + 1,
-        currentChar: "",
-        currentWord: "",
-        currentWordIdx: 0,
-        currentCharIdx: 0,
-        typedWords: [],
-        typedChars: [],
-        isGameFinished: false,
-        timer: 60,
-        testHistory: [],
+        words: state.words.sort(() => Math.random() - 0.5),
       };
     case "RESET_TYPED_WORDS":
       return {
@@ -115,7 +106,7 @@ const TypingProvider = ({ children }: { children?: ReactNode | any }) => {
 
   const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
   useEffect(() => {
-    state.words.sort(() => Math.random() - 0.5);
+    
   }, []);
 
   return (

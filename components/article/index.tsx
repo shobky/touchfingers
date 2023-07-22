@@ -8,6 +8,10 @@ export default function Article() {
   const { state, dispatch } = useTypingContext();
   const [sliceIdx, setSliceIdx] = useState(SHOWN_WORDS_COUNT);
 
+  useEffect(() => {
+    setSliceIdx(SHOWN_WORDS_COUNT);
+  }, [state.howManyRestarts]);
+  console.log(sliceIdx);
   // updated the rendered 20 words after finishing 20 words
   // reseting the typed words, the full history is in typed_history (things worked out like this and was lazy to fix)
   useEffect(() => {
