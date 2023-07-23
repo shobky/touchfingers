@@ -2,8 +2,6 @@ import "./globals.css";
 import { Roboto } from "next/font/google";
 import { TypingProvider } from "@/contexts/TypingContext";
 import Footer from "@/components/footer";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 
 const roboto = Roboto({
   weight: "400",
