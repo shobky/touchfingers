@@ -34,7 +34,7 @@ export default async function RootLayout(props: props) {
           {props.children}
           {props.modal}
         </TypingProvider>
-        <footer >
+        <footer>
           <Footer />
         </footer>
       </body>
