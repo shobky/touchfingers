@@ -73,7 +73,7 @@ const Input: React.FC = () => {
 
   return (
     <div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 ml-[20px] md:ml-[44px]">
         <input
           id="input"
           value={typedWord}
@@ -81,6 +81,7 @@ const Input: React.FC = () => {
           ref={inputRef}
           type="text"
           onChange={callOnChange}
+          autoCapitalize="off"
           autoComplete="off"
           name="special-input"
           className=" bg-gray-100 placeholder:text-slate-400 p-4 
@@ -90,7 +91,7 @@ const Input: React.FC = () => {
       </div>
 
       {!state.isGameStarted && (
-        <p className=" text-sm  ml-8 mt-2 opacity-75 ">{`{ Press "${
+        <p className=" text-sm text-center mt-2 opacity-75 ">{`{ Press "${
           state.words[0] ? state.words[0][0] : "any key"
         }" to start }`}</p>
       )}

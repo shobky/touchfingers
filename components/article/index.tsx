@@ -69,7 +69,7 @@ export default function Article() {
   return (
     <div
       style={{ height: "8.3rem" }}
-      className="max-w-2xl w-fit p-5 box-border rounded-2xl"
+      className="md:max-w-2xl md:w-fit p-5  mt-10 box-border rounded-2xl "
     >
       <div className="flex flex-wrap">
         {state.words

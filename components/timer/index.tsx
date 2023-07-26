@@ -1,44 +1,54 @@
 "use client";
 import { useTypingContext } from "@/contexts/TypingContext";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Results from "../result";
 
 function Timer() {
-  const { state, dispatch } = useTypingContext();
   const intervalRef = useRef<NodeJS.Timeout>();
+  const { state, dispatch } = useTypingContext();
+  const time = state.timerInit;
 
-  // update state to start the game when user types any thing 
+  const [timer, setTimer] = useState(time);
+  // update state to start the game when user types any thing
   useEffect(() => {
-    if (state.currentChar !== "") {
+    if (!state.isGameStarted) {
+      setTimer(time);
+    }
+  }, [state.howManyRestarts]);
+  useEffect(() => {
+    if (state.currentChar !== "" && !state.isGameStarted) {
       dispatch({ type: "START_GAME" });
     }
   }, [dispatch, state.currentChar]);
-
   // start the timer if the game has started
   useEffect(() => {
     if (!state.isGameStarted) return clearInterval(intervalRef.current);
     if (state.isGameStarted) {
       intervalRef.current = setInterval(() => {
-        dispatch({ type: "START_TIMER" });
+        setTimer(prev => prev - 1);
       }, 1000);
     }
-  }, [dispatch, state.isGameStarted, state.howManyRestarts]);
+  }, [state.isGameStarted, state.howManyRestarts]);
 
-  // stop timer when game is over after 60 seconds  
+  // stop timer when game is over after 60 seconds
   useEffect(() => {
-    if (state.timer === 0) {
+    if (timer === 0) {
       clearInterval(intervalRef.current);
       dispatch({ type: "FINISH_GAME" });
     }
-  }, [dispatch, state.timer]);
+  }, [dispatch, timer]);
 
   return (
-    <p
-      className={`text-xl text-gray-700 font-bold ${
-        state.timer === 0 && "_gameFinished"
-      }`}
-    >
-      {state.timer}
-    </p>
+    <>
+      <Results time={time} timer={timer} />
+      <p
+        className={`text-xl text-gray-700 font-bold absolute text-center w-fit m-auto right-0 left-0 top-[20%]  ${
+          timer === 0 && "_gameFinished"
+        }`}
+      >
+        {timer}
+      </p>
+    </>
   );
 }
 

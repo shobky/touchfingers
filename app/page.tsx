@@ -1,6 +1,7 @@
 import Article from "@/components/article";
 import Input from "@/components/input";
 import Results from "@/components/result";
+import StoreWords from "@/components/store-words";
 import Timer from "@/components/timer";
 
 export default async function Home() {
@@ -21,15 +22,15 @@ export default async function Home() {
   UniqeWords.sort(() => Math.random() - 0.5);
 
   return (
-    <main className={`h-screen w-full `}>
-      <div className="absolute right-0 flex p-14 gap-8 items-center  ">
-        <Results words={UniqeWords} />
-      </div>
-      <div className="h-full gap-16 flex flex-col pt-8 items-center justify-center">
+    <>
+      <StoreWords words={UniqeWords} />
+      <main className={`h-screen w-full `}>
         <Timer />
-        <Article />
-        <Input />
-      </div>
-    </main>
+        <div className="h-full gap-16 flex flex-col pt-8 items-center justify-center">
+          <Article />
+          <Input />
+        </div>
+      </main>
+    </>
   );
 }

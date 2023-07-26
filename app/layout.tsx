@@ -24,7 +24,7 @@ export default async function RootLayout(props: props) {
         <header>
           <h1
             style={{ color: "rgba(228, 135, 14, 0.900)" }}
-            className="text-2xl font-bold m-14 box-border absolute z-10"
+            className="text-lg md:text-2xl font-bold m-7 md:m-14 box-border absolute z-10"
           >
             {`<TOUCHFINGERS/>`}
           </h1>
@@ -34,7 +34,7 @@ export default async function RootLayout(props: props) {
           {props.children}
           {props.modal}
         </TypingProvider>
-        <footer className="absolute bottom-0 mb-14 mx-16 text-white">
+        <footer >
           <Footer />
         </footer>
       </body>

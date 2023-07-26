@@ -1,11 +1,10 @@
 "use client";
-import {
+import  {
   createContext,
   useReducer,
   useContext,
   ReactNode,
   useMemo,
-  useEffect,
 } from "react";
 
 import { TypingState, TypingAction } from "@/types/contextTypes";
@@ -20,8 +19,7 @@ const initState: TypingState = {
   typedChars: [],
   testHistory: [],
   //  Set the initial value of the timer
-  timer: 60,
-  timerInit:60,
+  timerInit: 60,
   isGameFinished: false,
   isGameStarted: false,
   howManyRestarts: 0,
@@ -76,17 +74,6 @@ const typingReducer = (
         currentChar: "  ",
         currentCharIdx: 0,
       };
-    case "START_TIMER":
-      return {
-        ...state,
-        timer: state.timer - 1,
-      };
-    case "CHANGE_TIMER":
-      return {
-        ...state,
-        timer: action.time,
-        timerInit: action.time
-      };
     case "FINISH_GAME":
       return {
         ...state,
@@ -110,10 +97,9 @@ const TypingContext = createContext<{
 // Create the TypingProvider component
 const TypingProvider = ({ children }: { children?: ReactNode | any }) => {
   const [state, dispatch] = useReducer(typingReducer, initState);
+  const contextValue = useMemo(() => ({ state, dispatch }), [state]);
 
-  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
-  useEffect(() => {}, []);
-
+ 
   return (
     <TypingContext.Provider value={contextValue}>
       {children}
