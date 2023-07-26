@@ -15,7 +15,6 @@ export const metadata = {
 };
 type props = {
   children: React.ReactNode;
-  modal: React.ReactNode;
 };
 export default async function RootLayout(props: props) {
   return (
@@ -30,10 +29,7 @@ export default async function RootLayout(props: props) {
           </h1>
         </header>
 
-        <TypingProvider>
-          {props.children}
-          {props.modal}
-        </TypingProvider>
+        <TypingProvider>{props.children}</TypingProvider>
         <footer>
           <Footer />
         </footer>
