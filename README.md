@@ -1,7 +1,20 @@
+#TOUCHFINGERS
+#### Video Demo:  <comming soon>
+#### Description: This is a typing speed test built with Next.js@13 and React.js
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# to run the web app localy
+```bash
+git clone https://github.com/shobky/touchfingers.git
+```
+### wait for that to clone and install the dependencies with 
+```bash
+npm i
+```
+That's it you can now start the dev server as below.
 
+## Getting Started
 First, run the development server:
 
 ```bash
